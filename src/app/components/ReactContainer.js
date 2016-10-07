@@ -6,6 +6,8 @@ import i18n from '../i18n'
 
 import { Router, Route } from 'react-router'
 
+import gameDisplayContainer from '../modules/GameDisplayContainer'
+
 @observer
 class ReactContainer extends React.Component {
 
@@ -17,6 +19,7 @@ class ReactContainer extends React.Component {
         let {store} = this.props
         const routes = [
             <Route path="/test" component={(props) => <div>TEST</div>}/>,
+            <Route path="/" component={gameDisplayContainer}/>,
             <Route path="*" component={(e) => { console.log('unhandled route', e.routeParams.splat); return null }} />
         ]
 

@@ -43,16 +43,18 @@ export default class Store {
         race.structs += howMuch
     }
 
+    @computed get something () {
+        //return
+    }
+
     interval = null
 
     start = () => {
         this.interval = setInterval(() => {
             for (this.item of this.items) {
                 this.item.units ++
-                console.log(`You have ${this.item.units} ${this.item.name} and ${this.item.structs} ${this.item.name} structures`)
                 this.stats.energy += Math.floor(this.item.structs/10)
             }
-            console.log(`Energy : ${this.stats.energy}`)
         },5000)
     }
 
@@ -64,7 +66,7 @@ export default class Store {
             toastr.error(i18n.t('tables.toast_error'))
             return Promise.reject(error)
         })
-        this.start()
+        //this.start()
         return Promise.resolve()
     }
 
