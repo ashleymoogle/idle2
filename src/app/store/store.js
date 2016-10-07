@@ -9,7 +9,9 @@ import axios from 'axios'
 
 export default class Store {
 
-    @observable state = {}
+    @observable state = {
+      hasInterval : false
+    }
 
     reactions = {}
 
@@ -27,6 +29,11 @@ export default class Store {
             name:"dwarfs",
             units: 10,
             structs: 3
+        },
+        {
+          name: "Tommyknockers",
+          units: 22,
+          structs: 2
         }
     ]
 
@@ -50,15 +57,21 @@ export default class Store {
     interval = null
 
     start = () => {
-        this.interval = setInterval(() => {
-            for (this.item of this.items) {
-                this.item.units ++
-                this.stats.energy += Math.floor(this.item.structs/10)
-            }
-        },5000)
+        if (!this.state.hasInterval){
+          this.state.hasInterval = true
+          this.interval = setInterval(() => {
+              for (this.item of this.items) {
+                  this.item.units ++
+                  this.stats.energy += Math.floor(this.item.structs/10)
+              }
+          },5000)
+        }
     }
 
-    stahp = () => clearInterval(this.interval)
+    stahp = () => {
+      this.state.hasInterval = false
+      clearInterval(this.interval)
+    }
 
     init = () => {
         // Add a response interceptor
