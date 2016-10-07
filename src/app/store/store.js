@@ -13,13 +13,58 @@ export default class Store {
 
     reactions = {}
 
-    init = (id = 287722) => {
+    @observable stats = {
+        energy:0
+    }
+
+    @observable items = [
+        {
+            name:"humans",
+            units: 96,
+            structs: 16
+        },
+        {
+            name:"dwarfs",
+            units: 10,
+            structs: 3
+        }
+    ]
+
+    addRace = (race) => {
+        this.items.push({
+            name:race,
+            units: 0,
+            structs: 0
+        })
+    }
+
+    addStructures = (who, howMuch)=> {
+        let race = this.items.find((race) => race.name === who)
+        race.structs += howMuch
+    }
+
+    interval = null
+
+    start = () => {
+        this.interval = setInterval(() => {
+            for (this.item of this.items) {
+                this.item.units ++
+                console.log(`You have ${this.item.units} ${this.item.name} and ${this.item.structs} ${this.item.name} structures`)
+                this.stats.energy += Math.floor(this.item.structs/10)
+            }
+            console.log(`Energy : ${this.stats.energy}`)
+        },5000)
+    }
+
+    stahp = () => clearInterval(this.interval)
+
+    init = () => {
         // Add a response interceptor
         axios.interceptors.response.use(undefined, (error) => {
             toastr.error(i18n.t('tables.toast_error'))
             return Promise.reject(error)
         })
-
+        this.start()
         return Promise.resolve()
     }
 
